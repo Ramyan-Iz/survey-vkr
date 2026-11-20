@@ -31,9 +31,7 @@
       <section class="step" data-step="1">
         <h2>Как я обычно думаю о себе и о мире</h2>
         <p class="instruction">Внимательно прочитайте каждое утверждение и оцените, насколько оно про вас. Выберите один вариант.</p>
-
         <div id="ellis-container"></div>
-
         <div class="nav-buttons">
           <button type="button" class="btn-prev" onclick="prevStep()">Назад</button>
           <button type="button" class="btn-next" onclick="nextStep()">Далее</button>
@@ -44,33 +42,65 @@
       <section class="step" data-step="2">
         <h2>Как я обращаюсь со своими мыслями и чувствами</h2>
         <p class="instruction">Оцените, насколько каждое утверждение описывает вас, по шкале от 0 до 6.</p>
-
         <div id="compact-container"></div>
-
         <div class="nav-buttons">
           <button type="button" class="btn-prev" onclick="prevStep()">Назад</button>
           <button type="button" class="btn-next" onclick="nextStep()">Далее</button>
         </div>
       </section>
 
-      <!-- БЛОК 3: Открытые вопросы -->
+      <!-- БЛОК 3: Гипотетическое обращение + 15 незаконченных предложений -->
       <section class="step" data-step="3">
         <h2>Гипотетическое обращение</h2>
         <p class="instruction">Если бы вы решили обратиться в психологическую службу вуза, как бы вы начали разговор с психологом? Что бы вы сказали в первые 2–3 минуты?</p>
         <textarea name="open_response" rows="5" placeholder="Напишите здесь..."></textarea>
 
-        <p class="instruction">Закончите предложения:</p>
-        <label class="text-label">Когда я думаю о том, чтобы пойти к психологу, я чувствую...</label>
+        <p class="instruction">Закончите предложения. Нет правильных или неправильных ответов — напишите первое, что приходит в голову.</p>
+
+        <label class="text-label">1. Когда я думаю о том, чтобы пойти к психологу, я чувствую...</label>
         <input type="text" name="sentence_1" placeholder="...">
 
-        <label class="text-label">Самое трудное в моей ситуации — это...</label>
+        <label class="text-label">2. Самое трудное в моей ситуации — это...</label>
         <input type="text" name="sentence_2" placeholder="...">
 
-        <label class="text-label">Я бы хотел(а), чтобы психолог...</label>
+        <label class="text-label">3. Я бы хотел(а), чтобы психолог...</label>
         <input type="text" name="sentence_3" placeholder="...">
 
-        <label class="text-label">Если бы я мог(ла) изменить одну вещь в своей жизни прямо сейчас, это было бы...</label>
+        <label class="text-label">4. Если бы я мог(ла) изменить одну вещь в своей жизни прямо сейчас, это было бы...</label>
         <input type="text" name="sentence_4" placeholder="...">
+
+        <label class="text-label">5. Я не могу справиться с...</label>
+        <input type="text" name="sentence_5" placeholder="...">
+
+        <label class="text-label">6. Больше всего меня беспокоит...</label>
+        <input type="text" name="sentence_6" placeholder="...">
+
+        <label class="text-label">7. Я боюсь, что...</label>
+        <input type="text" name="sentence_7" placeholder="...">
+
+        <label class="text-label">8. Я бы никогда не обратился(ась) к психологу, если бы...</label>
+        <input type="text" name="sentence_8" placeholder="...">
+
+        <label class="text-label">9. Моя главная проблема в том, что...</label>
+        <input type="text" name="sentence_9" placeholder="...">
+
+        <label class="text-label">10. Я чувствую себя лучше, когда...</label>
+        <input type="text" name="sentence_10" placeholder="...">
+
+        <label class="text-label">11. Я злюсь, когда...</label>
+        <input type="text" name="sentence_11" placeholder="...">
+
+        <label class="text-label">12. Я не понимаю, почему...</label>
+        <input type="text" name="sentence_12" placeholder="...">
+
+        <label class="text-label">13. Если бы я рассказал(а) всё честно, я бы сказал(а)...</label>
+        <input type="text" name="sentence_13" placeholder="...">
+
+        <label class="text-label">14. Я хочу, чтобы кто-то помог мне...</label>
+        <input type="text" name="sentence_14" placeholder="...">
+
+        <label class="text-label">15. Самое сложное для меня — это...</label>
+        <input type="text" name="sentence_15" placeholder="...">
 
         <div class="nav-buttons">
           <button type="button" class="btn-prev" onclick="prevStep()">Назад</button>
@@ -78,8 +108,70 @@
         </div>
       </section>
 
-      <!-- БЛОК 4: Демография -->
+      <!-- БЛОК 4: Ожидания от помощи (ранжирование) -->
       <section class="step" data-step="4">
+        <h2>Ожидания от психологической помощи</h2>
+        <p class="instruction">Если бы вы пришли на консультацию, что для вас было бы самым важным? Ранжируйте (1 — самое важное, 6 — наименее важное).</p>
+
+        <label class="text-label">1. Чтобы меня выслушали и поняли (эмоциональная поддержка):</label>
+        <select name="expect_1">
+          <option value="">Выберите ранг...</option>
+          <option value="1">1</option><option value="2">2</option><option value="3">3</option>
+          <option value="4">4</option><option value="5">5</option><option value="6">6</option>
+        </select>
+
+        <label class="text-label">2. Чтобы помогли разобраться, что со мной происходит (анализ и понимание):</label>
+        <select name="expect_2">
+          <option value="">Выберите ранг...</option>
+          <option value="1">1</option><option value="2">2</option><option value="3">3</option>
+          <option value="4">4</option><option value="5">5</option><option value="6">6</option>
+        </select>
+
+        <label class="text-label">3. Чтобы дали конкретные советы или план действий (рекомендации):</label>
+        <select name="expect_3">
+          <option value="">Выберите ранг...</option>
+          <option value="1">1</option><option value="2">2</option><option value="3">3</option>
+          <option value="4">4</option><option value="5">5</option><option value="6">6</option>
+        </select>
+
+        <label class="text-label">4. Чтобы научили справляться с тревогой/стрессом (формирование навыков):</label>
+        <select name="expect_4">
+          <option value="">Выберите ранг...</option>
+          <option value="1">1</option><option value="2">2</option><option value="3">3</option>
+          <option value="4">4</option><option value="5">5</option><option value="6">6</option>
+        </select>
+
+        <label class="text-label">5. Чтобы помогли изменить поведение другого человека (преподавателя, родителя, партнёра):</label>
+        <select name="expect_5">
+          <option value="">Выберите ранг...</option>
+          <option value="1">1</option><option value="2">2</option><option value="3">3</option>
+          <option value="4">4</option><option value="5">5</option><option value="6">6</option>
+        </select>
+
+        <label class="text-label">6. Свой вариант:</label>
+        <input type="text" name="expect_6" placeholder="Ваш вариант...">
+
+        <div class="nav-buttons">
+          <button type="button" class="btn-prev" onclick="prevStep()">Назад</button>
+          <button type="button" class="btn-next" onclick="nextStep()">Далее</button>
+        </div>
+      </section>
+
+      <!-- БЛОК 5: Барьеры обращения (8 утверждений) -->
+      <section class="step" data-step="5">
+        <h2>Что может остановить</h2>
+        <p class="instruction">Насколько каждое утверждение соответствует вам? (1 — совершенно не согласен(на), 5 — полностью согласен(на))</p>
+
+        <div id="barriers-container"></div>
+
+        <div class="nav-buttons">
+          <button type="button" class="btn-prev" onclick="prevStep()">Назад</button>
+          <button type="button" class="btn-next" onclick="nextStep()">Далее</button>
+        </div>
+      </section>
+
+      <!-- БЛОК 6: Демография -->
+      <section class="step" data-step="6">
         <h2>Немного о вас</h2>
 
         <label class="text-label">Пол:</label>
@@ -95,14 +187,29 @@
         <label class="text-label">Курс:</label>
         <input type="number" name="course" min="1" max="6" placeholder="Курс">
 
+        <label class="text-label">Направление подготовки:</label>
+        <select name="direction">
+          <option value="">Выберите...</option>
+          <option value="humanities">Гуманитарное</option>
+          <option value="tech">Техническое/естественно-научное</option>
+          <option value="other">Другое</option>
+        </select>
+
+        <label class="text-label">Ранее обращались к психологу:</label>
+        <select name="prev_experience">
+          <option value="">Выберите...</option>
+          <option value="yes">Да</option>
+          <option value="no">Нет</option>
+        </select>
+
         <div class="nav-buttons">
           <button type="button" class="btn-prev" onclick="prevStep()">Назад</button>
           <button type="button" class="btn-next" onclick="nextStep()">Далее</button>
         </div>
       </section>
 
-      <!-- БЛОК 5: Почта -->
-      <section class="step" data-step="5">
+      <!-- БЛОК 7: Почта -->
+      <section class="step" data-step="7">
         <h2>Обратная связь (необязательно)</h2>
         <p class="instruction">Если хотите получить краткий обобщённый отчёт о результатах — оставьте почту. Это необязательно.</p>
         <input type="email" name="email" placeholder="example@mail.ru">
@@ -113,8 +220,8 @@
         </div>
       </section>
 
-      <!-- БЛОК 6: Спасибо -->
-      <section class="step" data-step="6">
+      <!-- БЛОК 8: Спасибо -->
+      <section class="step" data-step="8">
         <h1>Спасибо!</h1>
         <p>Ваши ответы отправлены. Они будут использованы только в обобщённом виде.</p>
         <p>Если вы испытываете выраженное эмоциональное неблагополучие — обратитесь в психологическую службу вашего вуза.</p>
