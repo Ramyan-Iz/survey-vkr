@@ -1,7 +1,7 @@
 // ============================================================
 // ЗАМЕНИ НА СВОЙ URL ИЗ GOOGLE APPS SCRIPT
 // ============================================================
-const APPS_SCRIPT_URL = "https://script.google.com/macros/s/ТВОЙ_ID/exec";
+const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxjo1fllVfwcZvbCoPLza_bIRW5Ct9sj8LTX80juqknvi74P4tGSZUXwTB1ez-EWJNo/exec";
 
 // ============================================================
 // ЭЛЛИС: 50 ПУНКТОВ (русская адаптация из твоих файлов)
