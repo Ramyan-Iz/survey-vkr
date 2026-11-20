@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Исследование обращений студентов</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Прогресс-бар -->
+  <div class="progress-container">
+    <div class="progress-bar" id="progressBar"></div>
+  </div>
+
+  <!-- Контейнер формы -->
+  <div class="form-container">
+    <form id="surveyForm">
+
+      <!-- БЛОК 0: Согласие -->
+      <section class="step active" data-step="0">
+        <h1>Как студенты говорят о своих трудностях</h1>
+        <p class="subtitle">Психолингвистическое исследование обращений в психологическую службу вуза</p>
+        <p>Опрос анонимный. Ответы анализируются только в обобщённом виде. Прохождение займёт около 15–20 минут.</p>
+        <label class="checkbox-label">
+          <input type="checkbox" id="consent" required>
+          Я ознакомлен(а) и добровольно соглашаюсь участвовать
+        </label>
+        <button type="button" class="btn-next" onclick="nextStep()">Начать</button>
+      </section>
+
+      <!-- БЛОК 1: Эллис (пример — 5 пунктов) -->
+      <section class="step" data-step="1">
+        <h2>Как я обычно думаю о себе и о мире</h2>
+        <p class="instruction">Отметьте, насколько вы согласны с каждым утверждением (1 — не согласен, 5 — полностью согласен).</p>
+
+        <div class="question" data-name="ellis_1">
+          <p>1. Я должен(на) быть успешным(ой) во всём, что делаю.</p>
+          <div class="scale">
+            <label><input type="radio" name="ellis_1" value="1"> 1</label>
+            <label><input type="radio" name="ellis_1" value="2"> 2</label>
+            <label><input type="radio" name="ellis_1" value="3"> 3</label>
+            <label><input type="radio" name="ellis_1" value="4"> 4</label>
+            <label><input type="radio" name="ellis_1" value="5"> 5</label>
+          </div>
+        </div>
+
+        <div class="question" data-name="ellis_2">
+          <p>2. Если что-то идёт не так, это катастрофа.</p>
+          <div class="scale">
+            <label><input type="radio" name="ellis_2" value="1"> 1</label>
+            <label><input type="radio" name="ellis_2" value="2"> 2</label>
+            <label><input type="radio" name="ellis_2" value="3"> 3</label>
+            <label><input type="radio" name="ellis_2" value="4"> 4</label>
+            <label><input type="radio" name="ellis_2" value="5"> 5</label>
+          </div>
+        </div>
+
+        <div class="question" data-name="ellis_3">
+          <p>3. Я не вынесу, если столкнусь с неудачей или критикой.</p>
+          <div class="scale">
+            <label><input type="radio" name="ellis_3" value="1"> 1</label>
+            <label><input type="radio" name="ellis_3" value="2"> 2</label>
+            <label><input type="radio" name="ellis_3" value="3"> 3</label>
+            <label><input type="radio" name="ellis_3" value="4"> 4</label>
+            <label><input type="radio" name="ellis_3" value="5"> 5</label>
+          </div>
+        </div>
+
+        <div class="nav-buttons">
+          <button type="button" class="btn-prev" onclick="prevStep()">Назад</button>
+          <button type="button" class="btn-next" onclick="nextStep()">Далее</button>
+        </div>
+      </section>
+
+      <!-- БЛОК 2: CompACT (пример — 3 пункта) -->
+      <section class="step" data-step="2">
+        <h2>Как я обращаюсь со своими мыслями и чувствами</h2>
+        <p class="instruction">Оцените, насколько каждое утверждение описывает вас (0 — совсем не описывает, 6 — описывает полностью).</p>
+
+        <div class="question" data-name="compact_1">
+          <p>1. Я могу замечать неприятные мысли, не пытаясь от них избавиться.</p>
+          <div class="scale">
+            <label><input type="radio" name="compact_1" value="0"> 0</label>
+            <label><input type="radio" name="compact_1" value="1"> 1</label>
+            <label><input type="radio" name="compact_1" value="2"> 2</label>
+            <label><input type="radio" name="compact_1" value="3"> 3</label>
+            <label><input type="radio" name="compact_1" value="4"> 4</label>
+            <label><input type="radio" name="compact_1" value="5"> 5</label>
+            <label><input type="radio" name="compact_1" value="6"> 6</label>
+          </div>
+        </div>
+
+        <div class="question" data-name="compact_2">
+          <p>2. Я готов(а) испытывать дискомфорт, если это ведёт к важному для меня.</p>
+          <div class="scale">
+            <label><input type="radio" name="compact_2" value="0"> 0</label>
+            <label><input type="radio" name="compact_2" value="1"> 1</label>
+            <label><input type="radio" name="compact_2" value="2"> 2</label>
+            <label><input type="radio" name="compact_2" value="3"> 3</label>
+            <label><input type="radio" name="compact_2" value="4"> 4</label>
+            <label><input type="radio" name="compact_2" value="5"> 5</label>
+            <label><input type="radio" name="compact_2" value="6"> 6</label>
+          </div>
+        </div>
+
+        <div class="question" data-name="compact_3">
+          <p>3. Я замечаю, когда мои мысли уводят меня от того, что важно.</p>
+          <div class="scale">
+            <label><input type="radio" name="compact_3" value="0"> 0</label>
+            <label><input type="radio" name="compact_3" value="1"> 1</label>
+            <label><input type="radio" name="compact_3" value="2"> 2</label>
+            <label><input type="radio" name="compact_3" value="3"> 3</label>
+            <label><input type="radio" name="compact_3" value="4"> 4</label>
+            <label><input type="radio" name="compact_3" value="5"> 5</label>
+            <label><input type="radio" name="compact_3" value="6"> 6</label>
+          </div>
+        </div>
+
+        <div class="nav-buttons">
+          <button type="button" class="btn-prev" onclick="prevStep()">Назад</button>
+          <button type="button" class="btn-next" onclick="nextStep()">Далее</button>
+        </div>
+      </section>
+
+      <!-- БЛОК 3: Открытые вопросы -->
+      <section class="step" data-step="3">
+        <h2>Гипотетическое обращение</h2>
+        <p class="instruction">Если бы вы решили обратиться в психологическую службу вуза, как бы вы начали разговор с психологом? Что бы вы сказали в первые 2–3 минуты?</p>
+        <textarea name="open_response" rows="5" placeholder="Напишите здесь..."></textarea>
+
+        <p class="instruction">Закончите предложения:</p>
+        <label class="text-label">Когда я думаю о том, чтобы пойти к психологу, я чувствую...</label>
+        <input type="text" name="sentence_1" placeholder="...">
+
+        <label class="text-label">Самое трудное в моей ситуации — это...</label>
+        <input type="text" name="sentence_2" placeholder="...">
+
+        <div class="nav-buttons">
+          <button type="button" class="btn-prev" onclick="prevStep()">Назад</button>
+          <button type="button" class="btn-next" onclick="nextStep()">Далее</button>
+        </div>
+      </section>
+
+      <!-- БЛОК 4: Демография -->
+      <section class="step" data-step="4">
+        <h2>Немного о вас</h2>
+
+        <label class="text-label">Пол:</label>
+        <select name="gender">
+          <option value="">Выберите...</option>
+          <option value="male">М</option>
+          <option value="female">Ж</option>
+        </select>
+
+        <label class="text-label">Возраст:</label>
+        <input type="number" name="age" min="16" max="60" placeholder="Лет">
+
+        <label class="text-label">Курс:</label>
+        <input type="number" name="course" min="1" max="6" placeholder="Курс">
+
+        <div class="nav-buttons">
+          <button type="button" class="btn-prev" onclick="prevStep()">Назад</button>
+          <button type="button" class="btn-next" onclick="nextStep()">Далее</button>
+        </div>
+      </section>
+
+      <!-- БЛОК 5: Почта -->
+      <section class="step" data-step="5">
+        <h2>Обратная связь (необязательно)</h2>
+        <p class="instruction">Если хотите получить краткий обобщённый отчёт о результатах — оставьте почту. Это необязательно.</p>
+        <input type="email" name="email" placeholder="example@mail.ru">
+
+        <div class="nav-buttons">
+          <button type="button" class="btn-prev" onclick="prevStep()">Назад</button>
+          <button type="button" class="btn-submit" onclick="submitForm()">Отправить</button>
+        </div>
+      </section>
+
+      <!-- БЛОК 6: Спасибо -->
+      <section class="step" data-step="6">
+        <h1>Спасибо!</h1>
+        <p>Ваши ответы отправлены. Они будут использованы только в обобщённом виде.</p>
+        <p>Если вы испытываете выраженное эмоциональное неблагополучие — обратитесь в психологическую службу вашего вуза.</p>
+      </section>
+
+    </form>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
