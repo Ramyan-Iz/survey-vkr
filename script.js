@@ -1,7 +1,7 @@
 // ============================================================
 // ЗАМЕНИ НА СВОЙ URL ИЗ GOOGLE APPS SCRIPT
 // ============================================================
-const APPS_SCRIPT_URL = "https://script.google.com/macros/s/ТВОЙ_ID/exec";
+const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyAM0AVpaP4wLCFgmf3iYELCX4ArrdOZKxhgiFK11eIdoslpEVi6Ua1V3iiDyHlTo_M/exec";
 
 // ============================================================
 // ЭЛЛИС: 50 ПУНКТОВ
