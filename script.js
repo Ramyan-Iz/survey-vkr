@@ -1,10 +1,10 @@
 // ============================================================
 // ЗАМЕНИ НА СВОЙ URL ИЗ GOOGLE APPS SCRIPT
 // ============================================================
-const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxjo1fllVfwcZvbCoPLza_bIRW5Ct9sj8LTX80juqknvi74P4tGSZUXwTB1ez-EWJNo/exec";
+const APPS_SCRIPT_URL = "https://script.google.com/macros/s/ТВОЙ_ID/exec";
 
 // ============================================================
-// ЭЛЛИС: 50 ПУНКТОВ (русская адаптация из твоих файлов)
+// ЭЛЛИС: 50 ПУНКТОВ
 // ============================================================
 const ellisItems = [
   "Иметь дело с некоторыми людьми может быть неприятно, но это никогда не бывает ужасно.",
@@ -60,7 +60,7 @@ const ellisItems = [
 ];
 
 // ============================================================
-// COMPACT: 23 ПУНКТА (из твоей инструкции)
+// COMPACT: 23 ПУНКТА
 // ============================================================
 const compactItems = [
   "Я могу определить действительно важные для меня в жизни вещи и следовать им.",
@@ -89,28 +89,49 @@ const compactItems = [
 ];
 
 // ============================================================
-// ГЕНЕРАЦИЯ ВОПРОСОВ
+// БАРЬЕРЫ: 8 УТВЕРЖДЕНИЙ
 // ============================================================
+const barrierItems = [
+  "Я боюсь, что обо мне плохо подумают, если я пойду к психологу.",
+  "Я не уверен(а), что вузовский психолог сохранит конфиденциальность.",
+  "Я не знаю, как правильно описать то, что меня беспокоит.",
+  "Мне кажется, что мои проблемы недостаточно серьёзны для психолога.",
+  "Я не верю, что психолог может реально помочь.",
+  "Я боюсь, что меня заставят говорить о том, о чём я не хочу.",
+  "Мне стыдно говорить о своих проблемах незнакомому человеку.",
+  "Я не знаю, как записаться на консультацию и куда идти."
+];
 
-// Эллис: 3-балльная шкала (полностью не согласен / не уверен / полностью согласен)
-// Значения: 0, 1, 2 (или 1, 2, 3 — выбери, что удобнее для подсчёта)
+// ============================================================
+// ШКАЛЫ
+// ============================================================
 const ellisScale = [
   { value: "0", label: "Полностью не согласен" },
   { value: "1", label: "Не уверен" },
   { value: "2", label: "Полностью согласен" }
 ];
 
-// CompACT: 0-6
 const compactScale = [
-  { value: "0", label: "0 — абсолютно не согласен" },
-  { value: "1", label: "1 — умеренно не согласен" },
-  { value: "2", label: "2 — слегка не согласен" },
-  { value: "3", label: "3 — ни то, ни другое" },
-  { value: "4", label: "4 — слегка согласен" },
-  { value: "5", label: "5 — умеренно согласен" },
-  { value: "6", label: "6 — полностью согласен" }
+  { value: "0", label: "0" },
+  { value: "1", label: "1" },
+  { value: "2", label: "2" },
+  { value: "3", label: "3" },
+  { value: "4", label: "4" },
+  { value: "5", label: "5" },
+  { value: "6", label: "6" }
 ];
 
+const barrierScale = [
+  { value: "1", label: "1" },
+  { value: "2", label: "2" },
+  { value: "3", label: "3" },
+  { value: "4", label: "4" },
+  { value: "5", label: "5" }
+];
+
+// ============================================================
+// ГЕНЕРАЦИЯ
+// ============================================================
 function renderScale(containerId, items, prefix, scale) {
   const container = document.getElementById(containerId);
   let html = "";
@@ -131,11 +152,11 @@ function renderScale(containerId, items, prefix, scale) {
 
 renderScale("ellis-container", ellisItems, "ellis", ellisScale);
 renderScale("compact-container", compactItems, "compact", compactScale);
+renderScale("barriers-container", barrierItems, "barrier", barrierScale);
 
 // ============================================================
-// МЕХАНИКА ШАГОВ (БЕЗ ВАЛИДАЦИИ)
+// МЕХАНИКА
 // ============================================================
-
 let currentStep = 0;
 const steps = document.querySelectorAll(".step");
 
@@ -146,7 +167,6 @@ function showStep(index) {
 
   const progress = (index / (steps.length - 1)) * 100;
   document.getElementById("progressBar").style.width = progress + "%";
-
   window.scrollTo({ top: 0, behavior: "smooth" });
 }
 
@@ -167,7 +187,6 @@ function prevStep() {
 // ============================================================
 // ОТПРАВКА
 // ============================================================
-
 function collectFormData() {
   const form = document.getElementById("surveyForm");
   const formData = new FormData(form);
@@ -191,7 +210,6 @@ function collectFormData() {
 
 async function submitForm() {
   const data = collectFormData();
-
   const submitBtn = document.querySelector(".btn-submit");
   submitBtn.disabled = true;
   submitBtn.textContent = "Отправляем...";
@@ -200,9 +218,7 @@ async function submitForm() {
     await fetch(APPS_SCRIPT_URL, {
       method: "POST",
       mode: "no-cors",
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
-      },
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
       body: new URLSearchParams(data).toString(),
     });
 
@@ -216,5 +232,4 @@ async function submitForm() {
   }
 }
 
-// Инициализация
 showStep(0);
