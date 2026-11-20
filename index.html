@@ -8,12 +8,10 @@
 </head>
 <body>
 
-  <!-- Прогресс-бар -->
   <div class="progress-container">
     <div class="progress-bar" id="progressBar"></div>
   </div>
 
-  <!-- Контейнер формы -->
   <div class="form-container">
     <form id="surveyForm">
 
@@ -23,49 +21,18 @@
         <p class="subtitle">Психолингвистическое исследование обращений в психологическую службу вуза</p>
         <p>Опрос анонимный. Ответы анализируются только в обобщённом виде. Прохождение займёт около 15–20 минут.</p>
         <label class="checkbox-label">
-          <input type="checkbox" id="consent" required>
+          <input type="checkbox" id="consent">
           Я ознакомлен(а) и добровольно соглашаюсь участвовать
         </label>
         <button type="button" class="btn-next" onclick="nextStep()">Начать</button>
       </section>
 
-      <!-- БЛОК 1: Эллис (пример — 5 пунктов) -->
+      <!-- БЛОК 1: Эллис (50 пунктов) -->
       <section class="step" data-step="1">
         <h2>Как я обычно думаю о себе и о мире</h2>
-        <p class="instruction">Отметьте, насколько вы согласны с каждым утверждением (1 — не согласен, 5 — полностью согласен).</p>
+        <p class="instruction">Внимательно прочитайте каждое утверждение и оцените, насколько оно про вас. Выберите один вариант.</p>
 
-        <div class="question" data-name="ellis_1">
-          <p>1. Я должен(на) быть успешным(ой) во всём, что делаю.</p>
-          <div class="scale">
-            <label><input type="radio" name="ellis_1" value="1"> 1</label>
-            <label><input type="radio" name="ellis_1" value="2"> 2</label>
-            <label><input type="radio" name="ellis_1" value="3"> 3</label>
-            <label><input type="radio" name="ellis_1" value="4"> 4</label>
-            <label><input type="radio" name="ellis_1" value="5"> 5</label>
-          </div>
-        </div>
-
-        <div class="question" data-name="ellis_2">
-          <p>2. Если что-то идёт не так, это катастрофа.</p>
-          <div class="scale">
-            <label><input type="radio" name="ellis_2" value="1"> 1</label>
-            <label><input type="radio" name="ellis_2" value="2"> 2</label>
-            <label><input type="radio" name="ellis_2" value="3"> 3</label>
-            <label><input type="radio" name="ellis_2" value="4"> 4</label>
-            <label><input type="radio" name="ellis_2" value="5"> 5</label>
-          </div>
-        </div>
-
-        <div class="question" data-name="ellis_3">
-          <p>3. Я не вынесу, если столкнусь с неудачей или критикой.</p>
-          <div class="scale">
-            <label><input type="radio" name="ellis_3" value="1"> 1</label>
-            <label><input type="radio" name="ellis_3" value="2"> 2</label>
-            <label><input type="radio" name="ellis_3" value="3"> 3</label>
-            <label><input type="radio" name="ellis_3" value="4"> 4</label>
-            <label><input type="radio" name="ellis_3" value="5"> 5</label>
-          </div>
-        </div>
+        <div id="ellis-container"></div>
 
         <div class="nav-buttons">
           <button type="button" class="btn-prev" onclick="prevStep()">Назад</button>
@@ -73,49 +40,12 @@
         </div>
       </section>
 
-      <!-- БЛОК 2: CompACT (пример — 3 пункта) -->
+      <!-- БЛОК 2: CompACT-23 -->
       <section class="step" data-step="2">
         <h2>Как я обращаюсь со своими мыслями и чувствами</h2>
-        <p class="instruction">Оцените, насколько каждое утверждение описывает вас (0 — совсем не описывает, 6 — описывает полностью).</p>
+        <p class="instruction">Оцените, насколько каждое утверждение описывает вас, по шкале от 0 до 6.</p>
 
-        <div class="question" data-name="compact_1">
-          <p>1. Я могу замечать неприятные мысли, не пытаясь от них избавиться.</p>
-          <div class="scale">
-            <label><input type="radio" name="compact_1" value="0"> 0</label>
-            <label><input type="radio" name="compact_1" value="1"> 1</label>
-            <label><input type="radio" name="compact_1" value="2"> 2</label>
-            <label><input type="radio" name="compact_1" value="3"> 3</label>
-            <label><input type="radio" name="compact_1" value="4"> 4</label>
-            <label><input type="radio" name="compact_1" value="5"> 5</label>
-            <label><input type="radio" name="compact_1" value="6"> 6</label>
-          </div>
-        </div>
-
-        <div class="question" data-name="compact_2">
-          <p>2. Я готов(а) испытывать дискомфорт, если это ведёт к важному для меня.</p>
-          <div class="scale">
-            <label><input type="radio" name="compact_2" value="0"> 0</label>
-            <label><input type="radio" name="compact_2" value="1"> 1</label>
-            <label><input type="radio" name="compact_2" value="2"> 2</label>
-            <label><input type="radio" name="compact_2" value="3"> 3</label>
-            <label><input type="radio" name="compact_2" value="4"> 4</label>
-            <label><input type="radio" name="compact_2" value="5"> 5</label>
-            <label><input type="radio" name="compact_2" value="6"> 6</label>
-          </div>
-        </div>
-
-        <div class="question" data-name="compact_3">
-          <p>3. Я замечаю, когда мои мысли уводят меня от того, что важно.</p>
-          <div class="scale">
-            <label><input type="radio" name="compact_3" value="0"> 0</label>
-            <label><input type="radio" name="compact_3" value="1"> 1</label>
-            <label><input type="radio" name="compact_3" value="2"> 2</label>
-            <label><input type="radio" name="compact_3" value="3"> 3</label>
-            <label><input type="radio" name="compact_3" value="4"> 4</label>
-            <label><input type="radio" name="compact_3" value="5"> 5</label>
-            <label><input type="radio" name="compact_3" value="6"> 6</label>
-          </div>
-        </div>
+        <div id="compact-container"></div>
 
         <div class="nav-buttons">
           <button type="button" class="btn-prev" onclick="prevStep()">Назад</button>
@@ -135,6 +65,12 @@
 
         <label class="text-label">Самое трудное в моей ситуации — это...</label>
         <input type="text" name="sentence_2" placeholder="...">
+
+        <label class="text-label">Я бы хотел(а), чтобы психолог...</label>
+        <input type="text" name="sentence_3" placeholder="...">
+
+        <label class="text-label">Если бы я мог(ла) изменить одну вещь в своей жизни прямо сейчас, это было бы...</label>
+        <input type="text" name="sentence_4" placeholder="...">
 
         <div class="nav-buttons">
           <button type="button" class="btn-prev" onclick="prevStep()">Назад</button>
