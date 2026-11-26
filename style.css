@@ -24,7 +24,6 @@
   --radius-sm: 8px;
   --radius-md: 12px;
   --shadow-soft: 0 2px 12px rgba(0, 0, 0, 0.04);
-  --shadow-sticky: 0 -4px 20px rgba(0, 0, 0, 0.06);
 }
 
 *, *::before, *::after {
@@ -111,13 +110,13 @@ body {
 }
 
 /* ============================================
-   Индикатор шагов
+   ОРИЕНТИР: индикатор шагов
    ============================================ */
 .steps-indicator {
   display: flex;
   align-items: center;
   gap: var(--space-xs);
-  margin-bottom: var(--space-md);
+  margin-bottom: var(--space-sm);
   padding: var(--space-xs) 0;
 }
 
@@ -203,7 +202,7 @@ body {
 }
 
 /* ============================================
-   Шаги
+   Шаги (переходы не трогаем — они красивые)
    ============================================ */
 .step {
   display: none;
@@ -412,21 +411,12 @@ button:focus-visible,
 }
 
 /* ============================================
-   Sticky-футер с кнопками
+   Кнопки навигации (переходы не трогаем)
    ============================================ */
-.sticky-footer {
-  position: sticky;
-  bottom: 0;
+.nav-buttons {
   display: flex;
   gap: var(--space-xs);
   margin-top: var(--space-lg);
-  padding: var(--space-sm) 0;
-  padding-bottom: calc(var(--space-sm) + env(safe-area-inset-bottom, 0px));
-  background: rgba(247, 245, 240, 0.92);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  box-shadow: var(--shadow-sticky);
-  z-index: 50;
 }
 
 .btn-next,
@@ -488,7 +478,7 @@ button:focus-visible,
 }
 
 /* ============================================
-   Адаптив
+   Адаптив (mobile-first)
    ============================================ */
 @media (max-width: 480px) {
   .display {
@@ -508,11 +498,13 @@ button:focus-visible,
     height: 26px;
   }
 
-  .sticky-footer {
-    margin-left: calc(-1 * var(--space-sm));
-    margin-right: calc(-1 * var(--space-sm));
-    padding-left: var(--space-sm);
-    padding-right: var(--space-sm);
+  .nav-buttons {
+    flex-direction: column-reverse;
+  }
+
+  .btn-prev {
+    width: 100%;
+    text-align: center;
   }
 }
 
