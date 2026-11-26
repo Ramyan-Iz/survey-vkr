@@ -61,7 +61,7 @@ body {
    Страница (mobile-first)
    ============================================ */
 .page {
-  max-width: 680px;
+  max-width: 640px;
   margin: 0 auto;
   padding: var(--space-md) var(--space-sm) var(--space-xl);
 }
@@ -90,6 +90,8 @@ body {
    ============================================ */
 .page-header {
   margin-bottom: var(--space-lg);
+  opacity: 0;
+  animation: fadeUp 0.7s ease forwards;
 }
 
 .eyebrow {
@@ -107,10 +109,17 @@ body {
   font-weight: 600;
   line-height: 1.08;
   letter-spacing: -0.02em;
+  margin-bottom: var(--space-sm);
+}
+
+.lede {
+  font-size: 1rem;
+  color: var(--text-muted);
+  max-width: 48ch;
 }
 
 /* ============================================
-   ОРИЕНТИР: индикатор шагов
+   ОРИЕНТИР: индикатор секций
    ============================================ */
 .steps-indicator {
   display: flex;
@@ -202,32 +211,29 @@ body {
 }
 
 /* ============================================
-   Шаги (переходы не трогаем — они красивые)
+   Секции (переходы не трогаем)
    ============================================ */
-.step {
-  display: none;
+.section {
+  padding: var(--space-lg) 0;
+  border-top: 1px solid var(--line);
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
 }
 
-.step.is-active {
-  display: block;
-  animation: fadeUp 0.4s ease;
+.section.is-visible {
+  opacity: 1;
+  transform: translateY(0);
 }
 
-@keyframes fadeUp {
-  from { opacity: 0; transform: translateY(12px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-.step-head {
+.section-head {
   display: flex;
   align-items: baseline;
   gap: var(--space-sm);
   margin-bottom: var(--space-md);
-  padding-bottom: var(--space-sm);
-  border-bottom: 1px solid var(--line);
 }
 
-.step-num {
+.section-num {
   font-size: 0.75rem;
   font-weight: 500;
   letter-spacing: 0.08em;
@@ -235,11 +241,17 @@ body {
   font-variant-numeric: tabular-nums;
 }
 
-.step-title {
+.section-title {
   font-family: var(--font-display);
-  font-size: 1.375rem;
+  font-size: 1.25rem;
   font-weight: 600;
   letter-spacing: -0.01em;
+}
+
+.hint {
+  font-size: 0.875rem;
+  color: var(--text-muted);
+  margin-bottom: var(--space-md);
 }
 
 /* ============================================
@@ -282,6 +294,7 @@ textarea {
 input::placeholder,
 textarea::placeholder {
   color: var(--num);
+  transition: opacity 0.2s ease;
 }
 
 input:focus,
@@ -290,6 +303,11 @@ select:focus {
   outline: none;
   border-color: var(--accent);
   box-shadow: 0 0 0 3px var(--accent-soft);
+}
+
+input:focus::placeholder,
+textarea:focus::placeholder {
+  opacity: 0.4;
 }
 
 input:focus-visible,
@@ -411,56 +429,47 @@ button:focus-visible,
 }
 
 /* ============================================
-   Кнопки навигации (переходы не трогаем)
+   Кнопка отправки
    ============================================ */
-.nav-buttons {
+.submit {
   display: flex;
-  gap: var(--space-xs);
-  margin-top: var(--space-lg);
-}
-
-.btn-next,
-.btn-prev,
-.btn-submit {
-  flex: 1;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  margin-top: var(--space-md);
   padding: 1rem 1.25rem;
   font-family: var(--font-body);
   font-size: 0.9375rem;
   font-weight: 500;
+  color: #FFFFFF;
+  background: var(--accent);
   border: none;
   border-radius: var(--radius-md);
   cursor: pointer;
   transition: background 0.25s ease, transform 0.15s ease, box-shadow 0.25s ease;
-}
-
-.btn-next,
-.btn-submit {
-  color: #FFFFFF;
-  background: var(--accent);
   box-shadow: 0 4px 16px rgba(91, 107, 90, 0.2);
 }
 
-.btn-next:hover,
-.btn-submit:hover {
+.submit:hover {
   background: #4A5A49;
+  box-shadow: 0 6px 20px rgba(91, 107, 90, 0.3);
   transform: translateY(-1px);
 }
 
-.btn-prev {
-  background: var(--surface);
-  color: var(--text-muted);
-  border: 1px solid var(--line);
-  flex: 0 0 auto;
-  padding-left: 1rem;
-  padding-right: 1rem;
+.submit:active {
+  transform: translateY(0);
 }
 
-.btn-prev:hover {
-  border-color: var(--line-strong);
-  color: var(--text);
+.submit-arrow {
+  font-size: 1.125rem;
+  transition: transform 0.2s ease;
 }
 
-.btn-submit:disabled {
+.submit:hover .submit-arrow {
+  transform: translateX(4px);
+}
+
+.submit:disabled {
   opacity: 0.6;
   cursor: not-allowed;
   transform: none;
@@ -478,15 +487,27 @@ button:focus-visible,
 }
 
 /* ============================================
+   Анимация
+   ============================================ */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ============================================
    Адаптив (mobile-first)
    ============================================ */
 @media (max-width: 480px) {
+  .page {
+    padding: var(--space-lg) var(--space-sm);
+  }
+
   .display {
     font-size: 1.75rem;
   }
 
-  .step-title {
-    font-size: 1.25rem;
+  .section {
+    padding: var(--space-md) 0;
   }
 
   .step-dot-label {
@@ -497,15 +518,6 @@ button:focus-visible,
     width: 26px;
     height: 26px;
   }
-
-  .nav-buttons {
-    flex-direction: column-reverse;
-  }
-
-  .btn-prev {
-    width: 100%;
-    text-align: center;
-  }
 }
 
 /* ============================================
@@ -515,5 +527,10 @@ button:focus-visible,
   *, *::before, *::after {
     animation-duration: 0.01ms !important;
     transition-duration: 0.01ms !important;
+  }
+
+  .section {
+    opacity: 1;
+    transform: none;
   }
 }
