@@ -1,0 +1,425 @@
+/* ============================================
+   Переменные
+   ============================================ */
+:root {
+  /* Палитра */
+  --bg: #F7F5F0;
+  --surface: #FFFFFF;
+  --text: #1C1C1E;
+  --text-muted: #6B6B70;
+  --accent: #5B6B5A;
+  --accent-soft: rgba(91, 107, 90, 0.08);
+  --line: #E3E0DA;
+  --line-strong: #CFCBC4;
+  --num: #B0ADA7;
+
+  /* Типографика */
+  --font-display: 'Manrope', system-ui, sans-serif;
+  --font-body: 'Inter', system-ui, sans-serif;
+
+  /* Отступы */
+  --space-xs: 0.5rem;
+  --space-sm: 1rem;
+  --space-md: 1.5rem;
+  --space-lg: 2.5rem;
+  --space-xl: 4rem;
+
+  /* Скругления */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+
+  /* Тени */
+  --shadow-soft: 0 2px 12px rgba(0, 0, 0, 0.04);
+}
+
+/* ============================================
+   Сброс и база
+   ============================================ */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  font-family: var(--font-body);
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  min-height: 100vh;
+}
+
+/* ============================================
+   Страница
+   ============================================ */
+.page {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: var(--space-xl) var(--space-md) var(--space-xl);
+}
+
+@media (min-width: 768px) {
+  .page {
+    padding: var(--space-xl) var(--space-lg);
+  }
+}
+
+/* ============================================
+   Шапка
+   ============================================ */
+.page-header {
+  margin-bottom: var(--space-xl);
+  opacity: 0;
+  animation: fadeUp 0.7s ease forwards;
+}
+
+.eyebrow {
+  font-family: var(--font-body);
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: var(--space-md);
+}
+
+.display {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 6vw, 3.25rem);
+  font-weight: 600;
+  line-height: 1.08;
+  letter-spacing: -0.02em;
+  color: var(--text);
+  margin-bottom: var(--space-md);
+}
+
+.lede {
+  font-size: 1rem;
+  color: var(--text-muted);
+  max-width: 48ch;
+}
+
+/* ============================================
+   Секции
+   ============================================ */
+.section {
+  padding: var(--space-lg) 0;
+  border-top: 1px solid var(--line);
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.section.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.section-head {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-sm);
+  margin-bottom: var(--space-md);
+}
+
+.section-num {
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  color: var(--num);
+  font-variant-numeric: tabular-nums;
+}
+
+.section-title {
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+.hint {
+  font-size: 0.875rem;
+  color: var(--text-muted);
+  margin-bottom: var(--space-md);
+}
+
+/* ============================================
+   Поля
+   ============================================ */
+.field {
+  margin-bottom: var(--space-md);
+}
+
+.label {
+  display: block;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: var(--text-muted);
+  margin-bottom: var(--space-xs);
+  transition: color 0.2s ease;
+}
+
+input[type="text"],
+input[type="email"],
+textarea {
+  width: 100%;
+  font-family: var(--font-body);
+  font-size: 1rem;
+  color: var(--text);
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  padding: 0.875rem 1rem;
+  transition: border-color 0.25s ease, box-shadow 0.25s ease;
+  box-shadow: var(--shadow-soft);
+}
+
+textarea {
+  resize: vertical;
+  min-height: 120px;
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: var(--num);
+  transition: opacity 0.2s ease;
+}
+
+input:focus,
+textarea:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-soft);
+}
+
+input:focus::placeholder,
+textarea:focus::placeholder {
+  opacity: 0.4;
+}
+
+/* Focus-visible для доступности */
+input:focus-visible,
+textarea:focus-visible,
+button:focus-visible,
+.seg input:focus-visible + span,
+.check input:focus-visible + .check-box {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* ============================================
+   Сегментированные кнопки
+   ============================================ */
+.segmented {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-xs);
+}
+
+.seg {
+  position: relative;
+  cursor: pointer;
+}
+
+.seg input {
+  position: absolute;
+  opacity: 0;
+  width: 1px;
+  height: 1px;
+}
+
+.seg span {
+  display: inline-block;
+  font-size: 0.875rem;
+  font-weight: 500;
+  padding: 0.625rem 1rem;
+  border: 1px solid var(--line);
+  border-radius: 100px;
+  background: var(--surface);
+  color: var(--text-muted);
+  transition: all 0.2s ease;
+  box-shadow: var(--shadow-soft);
+}
+
+.seg span:hover {
+  border-color: var(--line-strong);
+  color: var(--text);
+}
+
+.seg input:checked + span {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #FFFFFF;
+}
+
+.seg input:focus-visible + span {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* ============================================
+   Чекбокс
+   ============================================ */
+.check {
+  display: flex;
+  gap: var(--space-sm);
+  cursor: pointer;
+  align-items: flex-start;
+}
+
+.check input {
+  position: absolute;
+  opacity: 0;
+  width: 1px;
+  height: 1px;
+}
+
+.check-box {
+  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+  border: 1.5px solid var(--line-strong);
+  border-radius: 4px;
+  background: var(--surface);
+  margin-top: 2px;
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.check input:checked + .check-box {
+  background: var(--accent);
+  border-color: var(--accent);
+}
+
+.check input:checked + .check-box::after {
+  content: '';
+  position: absolute;
+  left: 6px;
+  top: 2px;
+  width: 5px;
+  height: 10px;
+  border: solid #FFFFFF;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+
+.check-text {
+  font-size: 0.875rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+}
+
+/* ============================================
+   Кнопка отправки
+   ============================================ */
+.submit {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  margin-top: var(--space-md);
+  padding: 1rem 1.25rem;
+  font-family: var(--font-body);
+  font-size: 0.9375rem;
+  font-weight: 500;
+  color: #FFFFFF;
+  background: var(--accent);
+  border: none;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: background 0.25s ease, transform 0.15s ease, box-shadow 0.25s ease;
+  box-shadow: 0 4px 16px rgba(91, 107, 90, 0.2);
+}
+
+.submit:hover {
+  background: #4A5A49;
+  box-shadow: 0 6px 20px rgba(91, 107, 90, 0.3);
+  transform: translateY(-1px);
+}
+
+.submit:active {
+  transform: translateY(0);
+}
+
+.submit-arrow {
+  font-size: 1.125rem;
+  transition: transform 0.2s ease;
+}
+
+.submit:hover .submit-arrow {
+  transform: translateX(4px);
+}
+
+.submit:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* ============================================
+   Сноска
+   ============================================ */
+.footnote {
+  margin-top: var(--space-md);
+  font-size: 0.75rem;
+  color: var(--num);
+  line-height: 1.5;
+  text-align: center;
+}
+
+/* ============================================
+   Анимация появления
+   ============================================ */
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ============================================
+   Адаптив
+   ============================================ */
+@media (max-width: 480px) {
+  .page {
+    padding: var(--space-lg) var(--space-sm);
+  }
+
+  .display {
+    font-size: 1.875rem;
+  }
+
+  .section {
+    padding: var(--space-md) 0;
+  }
+
+  .seg span {
+    font-size: 0.8125rem;
+    padding: 0.5rem 0.875rem;
+  }
+}
+
+/* ============================================
+   Уважение к предпочтениям
+   ============================================ */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  .section {
+    opacity: 1;
+    transform: none;
+  }
+}

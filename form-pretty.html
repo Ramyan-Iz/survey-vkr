@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Обращение в психологическую службу</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=Manrope:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style-pretty.css">
+</head>
+<body>
+
+  <main class="page">
+    <!-- Шапка -->
+    <header class="page-header">
+      <p class="eyebrow">Психологическая служба</p>
+      <h1 class="display">Расскажите,<br>что вас беспокоит</h1>
+      <p class="lede">Это не заявка и не запись. Это исследование о том, как студенты формулируют свои трудности. Анонимно. Без оценки.</p>
+    </header>
+
+    <form id="prettyForm" class="form" novalidate>
+
+      <!-- 01 -->
+      <section class="section" data-section>
+        <div class="section-head">
+          <span class="section-num">01</span>
+          <h2 class="section-title">Кто вы</h2>
+        </div>
+        <div class="field">
+          <label for="name" class="label">Имя или псевдоним</label>
+          <input type="text" id="name" name="name" placeholder="Как к вам обращаться" autocomplete="name">
+        </div>
+        <div class="field">
+          <label for="email" class="label">Email</label>
+          <input type="email" id="email" name="email" placeholder="you@example.com" autocomplete="email" inputmode="email">
+        </div>
+      </section>
+
+      <!-- 02 -->
+      <section class="section" data-section>
+        <div class="section-head">
+          <span class="section-num">02</span>
+          <h2 class="section-title">Тема обращения</h2>
+        </div>
+        <p class="hint">Выберите то, что ближе. Можно пропустить.</p>
+        <div class="segmented" role="radiogroup" aria-label="Тема обращения">
+          <label class="seg">
+            <input type="radio" name="topic" value="anxiety">
+            <span>Тревога</span>
+          </label>
+          <label class="seg">
+            <input type="radio" name="topic" value="study">
+            <span>Учёба</span>
+          </label>
+          <label class="seg">
+            <input type="radio" name="topic" value="relationships">
+            <span>Отношения</span>
+          </label>
+          <label class="seg">
+            <input type="radio" name="topic" value="self">
+            <span>Я сам(а)</span>
+          </label>
+          <label class="seg">
+            <input type="radio" name="topic" value="other">
+            <span>Другое</span>
+          </label>
+        </div>
+      </section>
+
+      <!-- 03 -->
+      <section class="section" data-section>
+        <div class="section-head">
+          <span class="section-num">03</span>
+          <h2 class="section-title">Что вас беспокоит</h2>
+        </div>
+        <div class="field">
+          <label for="concern" class="label">Свободное описание</label>
+          <textarea id="concern" name="concern" rows="5" placeholder="Начните с того, что первым приходит в голову. Здесь нет правильных формулировок."></textarea>
+        </div>
+      </section>
+
+      <!-- 04 -->
+      <section class="section" data-section>
+        <div class="section-head">
+          <span class="section-num">04</span>
+          <h2 class="section-title">Согласие</h2>
+        </div>
+        <label class="check">
+          <input type="checkbox" name="consent" id="consent">
+          <span class="check-box" aria-hidden="true"></span>
+          <span class="check-text">Я понимаю, что это исследование, а не консультация. Ответы анонимны и используются в обобщённом виде.</span>
+        </label>
+      </section>
+
+      <button type="submit" class="submit">
+        <span>Отправить</span>
+        <span class="submit-arrow" aria-hidden="true">→</span>
+      </button>
+
+      <p class="footnote">Если вам тяжело — вы можете обратиться в психологическую службу вуза напрямую. Это не заменяет помощь.</p>
+    </form>
+  </main>
+
+  <script src="script-pretty.js"></script>
+</body>
+</html>
