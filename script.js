@@ -1,7 +1,7 @@
 // ============================================================
 // ЗАМЕНИ НА СВОЙ URL ИЗ GOOGLE APPS SCRIPT
 // ============================================================
-const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyAM0AVpaP4wLCFgmf3iYELCX4ArrdOZKxhgiFK11eIdoslpEVi6Ua1V3iiDyHlTo_M/exec";
+const APPS_SCRIPT_URL = "https://script.google.com/macros/s/ТВОЙ_ID/exec";
 
 // ============================================================
 // ЭЛЛИС: 50 ПУНКТОВ
@@ -130,17 +130,18 @@ const barrierScale = [
 ];
 
 // ============================================================
-// ГЕНЕРАЦИЯ
+// ГЕНЕРАЦИЯ RADIO-ВОПРОСОВ
 // ============================================================
 function renderScale(containerId, items, prefix, scale) {
   const container = document.getElementById(containerId);
-  let html = "";
+  if (!container) return;
 
+  let html = "";
   items.forEach((text, index) => {
     const name = `${prefix}_${index + 1}`;
     html += `<div class="question" data-name="${name}">`;
     html += `<p>${index + 1}. ${text}</p>`;
-    html += `<div class="scale">`;
+    html += `<div class="scale" role="radiogroup" aria-label="Вопрос ${index + 1}">`;
     scale.forEach(item => {
       html += `<label><input type="radio" name="${name}" value="${item.value}"> ${item.label}</label>`;
     });
@@ -155,37 +156,37 @@ renderScale("compact-container", compactItems, "compact", compactScale);
 renderScale("barriers-container", barrierItems, "barrier", barrierScale);
 
 // ============================================================
-// МЕХАНИКА
+// АНИМАЦИЯ ПОЯВЛЕНИЯ СЕКЦИЙ
 // ============================================================
-let currentStep = 0;
-const steps = document.querySelectorAll(".step");
+const sections = document.querySelectorAll('[data-section]');
 
-function showStep(index) {
-  steps.forEach((step, i) => {
-    step.classList.toggle("active", i === index);
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('is-visible');
+      observer.unobserve(entry.target);
+    }
   });
+}, {
+  threshold: 0.1,
+  rootMargin: '0px 0px -40px 0px'
+});
 
-  const progress = (index / (steps.length - 1)) * 100;
-  document.getElementById("progressBar").style.width = progress + "%";
-  window.scrollTo({ top: 0, behavior: "smooth" });
-}
-
-function nextStep() {
-  if (currentStep < steps.length - 1) {
-    currentStep++;
-    showStep(currentStep);
-  }
-}
-
-function prevStep() {
-  if (currentStep > 0) {
-    currentStep--;
-    showStep(currentStep);
-  }
-}
+sections.forEach(section => observer.observe(section));
 
 // ============================================================
-// ОТПРАВКА
+// ПРОГРЕСС-БАР ПРИ СКРОЛЛЕ
+// ============================================================
+window.addEventListener('scroll', () => {
+  const scrollTop = window.scrollY;
+  const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+  const progress = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+  const bar = document.getElementById('progressBar');
+  if (bar) bar.style.width = progress + '%';
+});
+
+// ============================================================
+// СБОР И ОТПРАВКА ДАННЫХ
 // ============================================================
 function collectFormData() {
   const form = document.getElementById("surveyForm");
@@ -208,11 +209,15 @@ function collectFormData() {
   return data;
 }
 
-async function submitForm() {
+document.getElementById("surveyForm").addEventListener("submit", async (e) => {
+  e.preventDefault();
+
   const data = collectFormData();
-  const submitBtn = document.querySelector(".btn-submit");
+  const submitBtn = e.target.querySelector(".submit");
+  const originalHTML = submitBtn.innerHTML;
+
   submitBtn.disabled = true;
-  submitBtn.textContent = "Отправляем...";
+  submitBtn.innerHTML = '<span>Отправляем…</span>';
 
   try {
     await fetch(APPS_SCRIPT_URL, {
@@ -222,14 +227,16 @@ async function submitForm() {
       body: new URLSearchParams(data).toString(),
     });
 
-    currentStep = steps.length - 1;
-    showStep(currentStep);
+    submitBtn.innerHTML = '<span>Спасибо</span><span class="submit-arrow">✓</span>';
+
+    setTimeout(() => {
+      submitBtn.disabled = false;
+      submitBtn.innerHTML = originalHTML;
+    }, 4000);
   } catch (error) {
     alert("Не удалось отправить данные. Проверьте соединение и попробуйте снова.");
     submitBtn.disabled = false;
-    submitBtn.textContent = "Отправить";
+    submitBtn.innerHTML = originalHTML;
     console.error(error);
   }
-}
-
-showStep(0);
+});
