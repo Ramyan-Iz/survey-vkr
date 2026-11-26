@@ -112,20 +112,25 @@ const ellisScale = [
 ];
 
 const compactScale = [
-  { value: "0", label: "0" }, { value: "1", label: "1" },
-  { value: "2", label: "2" }, { value: "3", label: "3" },
-  { value: "4", label: "4" }, { value: "5", label: "5" },
+  { value: "0", label: "0" },
+  { value: "1", label: "1" },
+  { value: "2", label: "2" },
+  { value: "3", label: "3" },
+  { value: "4", label: "4" },
+  { value: "5", label: "5" },
   { value: "6", label: "6" }
 ];
 
 const barrierScale = [
-  { value: "1", label: "1" }, { value: "2", label: "2" },
-  { value: "3", label: "3" }, { value: "4", label: "4" },
+  { value: "1", label: "1" },
+  { value: "2", label: "2" },
+  { value: "3", label: "3" },
+  { value: "4", label: "4" },
   { value: "5", label: "5" }
 ];
 
 // ============================================================
-// ГЕНЕРАЦИЯ
+// ГЕНЕРАЦИЯ RADIO-ВОПРОСОВ
 // ============================================================
 function renderScale(containerId, items, prefix, scale) {
   const container = document.getElementById(containerId);
@@ -170,64 +175,18 @@ const observer = new IntersectionObserver((entries) => {
 sections.forEach(section => observer.observe(section));
 
 // ============================================================
-// ОРИЕНТИР: обновление индикатора при скролле
+// ПРОГРЕСС-БАР ПРИ СКРОЛЛЕ
 // ============================================================
-const dots = document.querySelectorAll('.step-dot');
-const progressBar = document.getElementById('progressBar');
-const stepAnnounce = document.getElementById('stepAnnounce');
-const sectionTitles = ["Контакты", "Тема обращения", "Детали"];
-
-let currentSection = 0;
-
-function updateIndicator(index) {
-  if (index === currentSection && dots[index]?.classList.contains('is-active')) return;
-  currentSection = index;
-
-  dots.forEach((dot, i) => {
-    dot.classList.toggle('is-active', i === index);
-    dot.classList.toggle('is-done', i < index);
-    if (i === index) {
-      dot.setAttribute('aria-current', 'step');
-    } else {
-      dot.removeAttribute('aria-current');
-    }
-  });
-
-  const progress = ((index + 1) / sections.length) * 100;
-  progressBar.style.width = progress + '%';
-
-  stepAnnounce.textContent = `Секция ${index + 1} из ${sections.length}: ${sectionTitles[index]}`;
-}
-
-const sectionObserver = new IntersectionObserver((entries) => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      const index = parseInt(entry.target.dataset.index, 10);
-      if (!isNaN(index)) updateIndicator(index);
-    }
-  });
-}, {
-  threshold: 0.3,
-  rootMargin: '-20% 0px -50% 0px'
-});
-
-sections.forEach(section => sectionObserver.observe(section));
-
-// Клик по точкам — скролл к секции
-dots.forEach(dot => {
-  dot.addEventListener('click', () => {
-    const target = parseInt(dot.dataset.goto, 10);
-    const section = sections[target];
-    if (section) {
-      section.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      const title = section.querySelector('.section-title');
-      if (title) setTimeout(() => title.focus({ preventScroll: true }), 400);
-    }
-  });
+window.addEventListener('scroll', () => {
+  const scrollTop = window.scrollY;
+  const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+  const progress = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+  const bar = document.getElementById('progressBar');
+  if (bar) bar.style.width = progress + '%';
 });
 
 // ============================================================
-// ОТПРАВКА
+// СБОР И ОТПРАВКА ДАННЫХ
 // ============================================================
 function collectFormData() {
   const form = document.getElementById("surveyForm");
@@ -269,7 +228,6 @@ document.getElementById("surveyForm").addEventListener("submit", async (e) => {
     });
 
     submitBtn.innerHTML = '<span>Спасибо</span><span class="submit-arrow">✓</span>';
-    stepAnnounce.textContent = "Форма отправлена. Спасибо за участие.";
 
     setTimeout(() => {
       submitBtn.disabled = false;
