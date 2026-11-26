@@ -151,7 +151,7 @@ renderScale("compact-container", compactItems, "compact", compactScale);
 renderScale("barriers-container", barrierItems, "barrier", barrierScale);
 
 // ============================================================
-// НАВИГАЦИЯ ПО ШАГАМ
+// НАВИГАЦИЯ ПО ШАГАМ (переходы не трогаем)
 // ============================================================
 const steps = document.querySelectorAll(".step");
 const dots = document.querySelectorAll(".step-dot");
@@ -179,7 +179,7 @@ function goToStep(index, announce = true) {
     }
   });
 
-  // Обновить точки
+  // Обновить точки-ориентиры
   dots.forEach((dot, i) => {
     dot.classList.toggle("is-active", i === index);
     dot.classList.toggle("is-done", i < index);
@@ -219,7 +219,7 @@ document.querySelectorAll("[data-prev]").forEach(btn => {
   btn.addEventListener("click", () => goToStep(currentStep - 1));
 });
 
-// Клик по точкам
+// Клик по точкам-ориентирам
 dots.forEach(dot => {
   dot.addEventListener("click", () => {
     const target = parseInt(dot.dataset.goto, 10);
