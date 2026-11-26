@@ -2,7 +2,7 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>Обращение в психологическую службу</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -12,93 +12,246 @@
 <body>
 
   <main class="page">
+
+    <!-- Подсказка сверху -->
+    <p class="top-hint">Заполните 3 коротких шага — это займёт около минуты</p>
+
     <!-- Шапка -->
     <header class="page-header">
-      <p class="eyebrow">Психологическая служба</p>
+      <p class="eyebrow">Психологическая служба · Исследование</p>
       <h1 class="display">Расскажите,<br>что вас беспокоит</h1>
       <p class="lede">Это не заявка и не запись. Это исследование о том, как студенты формулируют свои трудности. Анонимно. Без оценки.</p>
     </header>
 
+    <!-- ОРИЕНТИР: индикатор секций -->
+    <div class="steps-indicator" role="navigation" aria-label="Навигация по секциям">
+      <button type="button" class="step-dot is-active" data-goto="0" aria-current="step" aria-label="Секция 1 — Контакты">
+        <span class="step-dot-num">1</span>
+        <span class="step-dot-label">Контакты</span>
+      </button>
+      <span class="step-dot-line" aria-hidden="true"></span>
+      <button type="button" class="step-dot" data-goto="1" aria-label="Секция 2 — Тема обращения">
+        <span class="step-dot-num">2</span>
+        <span class="step-dot-label">Тема</span>
+      </button>
+      <span class="step-dot-line" aria-hidden="true"></span>
+      <button type="button" class="step-dot" data-goto="2" aria-label="Секция 3 — Детали">
+        <span class="step-dot-num">3</span>
+        <span class="step-dot-label">Детали</span>
+      </button>
+    </div>
+
+    <!-- Тонкая полоса прогресса -->
+    <div class="progress-container" aria-hidden="true">
+      <div class="progress-bar" id="progressBar"></div>
+    </div>
+
+    <!-- aria-live -->
+    <p class="sr-only" aria-live="polite" id="stepAnnounce"></p>
+
     <form id="prettyForm" class="form" novalidate>
 
       <!-- 01 -->
-      <section class="section" data-section>
+      <section class="section is-visible" data-section data-index="0" aria-labelledby="sec1Title">
         <div class="section-head">
           <span class="section-num">01</span>
-          <h2 class="section-title">Кто вы</h2>
+          <h2 class="section-title" id="sec1Title" tabindex="-1">Контакты</h2>
+        </div>
+
+        <label class="check">
+          <input type="checkbox" name="consent" id="consent">
+          <span class="check-box" aria-hidden="true"></span>
+          <span class="check-text">Я ознакомлен(а) и добровольно соглашаюсь участвовать. Понимаю, что это исследование, а не консультация. Ответы анонимны и используются в обобщённом виде.</span>
+        </label>
+
+        <div class="field">
+          <label for="gender" class="label">Пол</label>
+          <select id="gender" name="gender">
+            <option value="">Выберите...</option>
+            <option value="male">М</option>
+            <option value="female">Ж</option>
+          </select>
         </div>
         <div class="field">
-          <label for="name" class="label">Имя или псевдоним</label>
-          <input type="text" id="name" name="name" placeholder="Как к вам обращаться" autocomplete="name">
+          <label for="age" class="label">Возраст</label>
+          <input type="number" id="age" name="age" min="16" max="60" placeholder="Лет">
         </div>
         <div class="field">
-          <label for="email" class="label">Email</label>
-          <input type="email" id="email" name="email" placeholder="you@example.com" autocomplete="email" inputmode="email">
+          <label for="course" class="label">Курс</label>
+          <input type="number" id="course" name="course" min="1" max="6" placeholder="Курс">
+        </div>
+        <div class="field">
+          <label for="direction" class="label">Направление подготовки</label>
+          <select id="direction" name="direction">
+            <option value="">Выберите...</option>
+            <option value="humanities">Гуманитарное</option>
+            <option value="tech">Техническое/естественно-научное</option>
+            <option value="other">Другое</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="prev_experience" class="label">Ранее обращались к психологу</label>
+          <select id="prev_experience" name="prev_experience">
+            <option value="">Выберите...</option>
+            <option value="yes">Да</option>
+            <option value="no">Нет</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="email" class="label">Email для обратной связи (необязательно)</label>
+          <input type="email" id="email" name="email" placeholder="example@mail.ru" inputmode="email" autocomplete="email">
         </div>
       </section>
 
       <!-- 02 -->
-      <section class="section" data-section>
+      <section class="section" data-section data-index="1" aria-labelledby="sec2Title">
         <div class="section-head">
           <span class="section-num">02</span>
-          <h2 class="section-title">Тема обращения</h2>
+          <h2 class="section-title" id="sec2Title" tabindex="-1">Тема обращения</h2>
         </div>
-        <p class="hint">Выберите то, что ближе. Можно пропустить.</p>
-        <div class="segmented" role="radiogroup" aria-label="Тема обращения">
-          <label class="seg">
-            <input type="radio" name="topic" value="anxiety">
-            <span>Тревога</span>
-          </label>
-          <label class="seg">
-            <input type="radio" name="topic" value="study">
-            <span>Учёба</span>
-          </label>
-          <label class="seg">
-            <input type="radio" name="topic" value="relationships">
-            <span>Отношения</span>
-          </label>
-          <label class="seg">
-            <input type="radio" name="topic" value="self">
-            <span>Я сам(а)</span>
-          </label>
-          <label class="seg">
-            <input type="radio" name="topic" value="other">
-            <span>Другое</span>
-          </label>
+
+        <p class="hint">Если бы вы решили обратиться в психологическую службу вуза, как бы вы начали разговор с психологом? Что бы вы сказали в первые 2–3 минуты?</p>
+        <div class="field">
+          <label for="open_response" class="label">Свободное описание</label>
+          <textarea id="open_response" name="open_response" rows="4" placeholder="Напишите здесь..."></textarea>
         </div>
+
+        <p class="hint">Закончите предложения. Нет правильных или неправильных ответов — напишите первое, что приходит в голову.</p>
+
+        <div class="field">
+          <label class="label" for="sentence_1">1. Когда я думаю о том, чтобы пойти к психологу, я чувствую...</label>
+          <input type="text" id="sentence_1" name="sentence_1" placeholder="...">
+        </div>
+        <div class="field">
+          <label class="label" for="sentence_2">2. Самое трудное в моей ситуации — это...</label>
+          <input type="text" id="sentence_2" name="sentence_2" placeholder="...">
+        </div>
+        <div class="field">
+          <label class="label" for="sentence_3">3. Я бы хотел(а), чтобы психолог...</label>
+          <input type="text" id="sentence_3" name="sentence_3" placeholder="...">
+        </div>
+        <div class="field">
+          <label class="label" for="sentence_4">4. Если бы я мог(ла) изменить одну вещь в своей жизни прямо сейчас, это было бы...</label>
+          <input type="text" id="sentence_4" name="sentence_4" placeholder="...">
+        </div>
+        <div class="field">
+          <label class="label" for="sentence_5">5. Я не могу справиться с...</label>
+          <input type="text" id="sentence_5" name="sentence_5" placeholder="...">
+        </div>
+        <div class="field">
+          <label class="label" for="sentence_6">6. Больше всего меня беспокоит...</label>
+          <input type="text" id="sentence_6" name="sentence_6" placeholder="...">
+        </div>
+        <div class="field">
+          <label class="label" for="sentence_7">7. Я боюсь, что...</label>
+          <input type="text" id="sentence_7" name="sentence_7" placeholder="...">
+        </div>
+        <div class="field">
+          <label class="label" for="sentence_8">8. Я бы никогда не обратился(ась) к психологу, если бы...</label>
+          <input type="text" id="sentence_8" name="sentence_8" placeholder="...">
+        </div>
+        <div class="field">
+          <label class="label" for="sentence_9">9. Моя главная проблема в том, что...</label>
+          <input type="text" id="sentence_9" name="sentence_9" placeholder="...">
+        </div>
+        <div class="field">
+          <label class="label" for="sentence_10">10. Я чувствую себя лучше, когда...</label>
+          <input type="text" id="sentence_10" name="sentence_10" placeholder="...">
+        </div>
+        <div class="field">
+          <label class="label" for="sentence_11">11. Я злюсь, когда...</label>
+          <input type="text" id="sentence_11" name="sentence_11" placeholder="...">
+        </div>
+        <div class="field">
+          <label class="label" for="sentence_12">12. Я не понимаю, почему...</label>
+          <input type="text" id="sentence_12" name="sentence_12" placeholder="...">
+        </div>
+        <div class="field">
+          <label class="label" for="sentence_13">13. Если бы я рассказал(а) всё честно, я бы сказал(а)...</label>
+          <input type="text" id="sentence_13" name="sentence_13" placeholder="...">
+        </div>
+        <div class="field">
+          <label class="label" for="sentence_14">14. Я хочу, чтобы кто-то помог мне...</label>
+          <input type="text" id="sentence_14" name="sentence_14" placeholder="...">
+        </div>
+        <div class="field">
+          <label class="label" for="sentence_15">15. Самое сложное для меня — это...</label>
+          <input type="text" id="sentence_15" name="sentence_15" placeholder="...">
+        </div>
+
+        <p class="hint">Если бы вы пришли на консультацию, что для вас было бы самым важным? Ранжируйте (1 — самое важное, 6 — наименее важное).</p>
+
+        <div class="field">
+          <label class="label" for="expect_1">1. Чтобы меня выслушали и поняли (эмоциональная поддержка)</label>
+          <select id="expect_1" name="expect_1">
+            <option value="">Выберите ранг...</option>
+            <option value="1">1</option><option value="2">2</option><option value="3">3</option>
+            <option value="4">4</option><option value="5">5</option><option value="6">6</option>
+          </select>
+        </div>
+        <div class="field">
+          <label class="label" for="expect_2">2. Чтобы помогли разобраться, что со мной происходит (анализ и понимание)</label>
+          <select id="expect_2" name="expect_2">
+            <option value="">Выберите ранг...</option>
+            <option value="1">1</option><option value="2">2</option><option value="3">3</option>
+            <option value="4">4</option><option value="5">5</option><option value="6">6</option>
+          </select>
+        </div>
+        <div class="field">
+          <label class="label" for="expect_3">3. Чтобы дали конкретные советы или план действий (рекомендации)</label>
+          <select id="expect_3" name="expect_3">
+            <option value="">Выберите ранг...</option>
+            <option value="1">1</option><option value="2">2</option><option value="3">3</option>
+            <option value="4">4</option><option value="5">5</option><option value="6">6</option>
+          </select>
+        </div>
+        <div class="field">
+          <label class="label" for="expect_4">4. Чтобы научили справляться с тревогой/стрессом (формирование навыков)</label>
+          <select id="expect_4" name="expect_4">
+            <option value="">Выберите ранг...</option>
+            <option value="1">1</option><option value="2">2</option><option value="3">3</option>
+            <option value="4">4</option><option value="5">5</option><option value="6">6</option>
+          </select>
+        </div>
+        <div class="field">
+          <label class="label" for="expect_5">5. Чтобы помогли изменить поведение другого человека (преподавателя, родителя, партнёра)</label>
+          <select id="expect_5" name="expect_5">
+            <option value="">Выберите ранг...</option>
+            <option value="1">1</option><option value="2">2</option><option value="3">3</option>
+            <option value="4">4</option><option value="5">5</option><option value="6">6</option>
+          </select>
+        </div>
+        <div class="field">
+          <label class="label" for="expect_6">6. Свой вариант</label>
+          <input type="text" id="expect_6" name="expect_6" placeholder="Ваш вариант...">
+        </div>
+
+        <p class="hint">Насколько каждое утверждение соответствует вам? (1 — совершенно не согласен(на), 5 — полностью согласен(на))</p>
+        <div id="barriers-container"></div>
       </section>
 
       <!-- 03 -->
-      <section class="section" data-section>
+      <section class="section" data-section data-index="2" aria-labelledby="sec3Title">
         <div class="section-head">
           <span class="section-num">03</span>
-          <h2 class="section-title">Что вас беспокоит</h2>
+          <h2 class="section-title" id="sec3Title" tabindex="-1">Детали</h2>
         </div>
-        <div class="field">
-          <label for="concern" class="label">Свободное описание</label>
-          <textarea id="concern" name="concern" rows="5" placeholder="Начните с того, что первым приходит в голову. Здесь нет правильных формулировок."></textarea>
-        </div>
+
+        <p class="hint">Внимательно прочитайте каждое утверждение и оцените, насколько оно про вас. Выберите один вариант.</p>
+        <div id="ellis-container"></div>
+
+        <p class="hint">Оцените, насколько каждое утверждение описывает вас, по шкале от 0 до 6.</p>
+        <div id="compact-container"></div>
       </section>
 
-      <!-- 04 -->
-      <section class="section" data-section>
-        <div class="section-head">
-          <span class="section-num">04</span>
-          <h2 class="section-title">Согласие</h2>
-        </div>
-        <label class="check">
-          <input type="checkbox" name="consent" id="consent">
-          <span class="check-box" aria-hidden="true"></span>
-          <span class="check-text">Я понимаю, что это исследование, а не консультация. Ответы анонимны и используются в обобщённом виде.</span>
-        </label>
-      </section>
-
+      <!-- Кнопка -->
       <button type="submit" class="submit">
         <span>Отправить</span>
         <span class="submit-arrow" aria-hidden="true">→</span>
       </button>
 
       <p class="footnote">Если вам тяжело — вы можете обратиться в психологическую службу вуза напрямую. Это не заменяет помощь.</p>
+
     </form>
   </main>
 
