@@ -157,6 +157,7 @@ renderScale("barriers-container", barrierItems, "barrier", barrierScale);
 
 // ============================================================
 // АНИМАЦИЯ ПОЯВЛЕНИЯ СЕКЦИЙ
+// ИСПРАВЛЕНО: threshold 0.01, rootMargin 0px, fallback, проверка при load
 // ============================================================
 const sections = document.querySelectorAll('[data-section]');
 
@@ -168,21 +169,34 @@ const observer = new IntersectionObserver((entries) => {
     }
   });
 }, {
-  threshold: 0.1,
-  rootMargin: '0px 0px -40px 0px'
+  threshold: 0.01,
+  rootMargin: '0px 0px 0px 0px'
 });
 
 sections.forEach(section => observer.observe(section));
 
+// Fallback: через 1.8с все секции видимы, даже если observer проспал
+setTimeout(() => {
+  document.querySelectorAll('[data-section]').forEach(s => s.classList.add('is-visible'));
+}, 1800);
+
+// Проверка при загрузке — если секция уже в зоне видимости
+window.addEventListener('load', () => {
+  document.querySelectorAll('[data-section]').forEach(s => {
+    const rect = s.getBoundingClientRect();
+    if (rect.top < window.innerHeight) s.classList.add('is-visible');
+  });
+});
+
 // ============================================================
-// ПРОГРЕСС-БАР ПРИ СКРОЛЛЕ
+// ПОЛОСА-ЗЕЛЬЕ ПРИ СКРОЛЛЕ (вертикальный прогресс)
 // ============================================================
 window.addEventListener('scroll', () => {
   const scrollTop = window.scrollY;
   const docHeight = document.documentElement.scrollHeight - window.innerHeight;
   const progress = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
-  const bar = document.getElementById('progressBar');
-  if (bar) bar.style.width = progress + '%';
+  const fill = document.getElementById('potionFill');
+  if (fill) fill.style.height = progress + '%';
 });
 
 // ============================================================
