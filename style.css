@@ -26,6 +26,9 @@
   --shadow-soft: 0 2px 12px rgba(0, 0, 0, 0.04);
 }
 
+/* ============================================
+   Сброс и база
+   ============================================ */
 *, *::before, *::after {
   box-sizing: border-box;
   margin: 0;
@@ -45,27 +48,66 @@ body {
   min-height: 100vh;
 }
 
-/* Прогресс-бар */
-.progress-container {
+/* ============================================
+   Полоса-зелье справа (вертикальный прогресс)
+   ============================================ */
+.potion-rail {
   position: fixed;
   top: 0;
+  right: 12px;
+  width: 6px;
+  height: 100vh;
+  background: rgba(227, 224, 218, 0.5);
+  border-radius: 100px;
+  overflow: hidden;
+  z-index: 90;
+  pointer-events: none;
+}
+
+.potion-fill {
+  position: absolute;
+  bottom: 0;
   left: 0;
   width: 100%;
-  height: 3px;
-  background: var(--line);
-  z-index: 100;
+  height: 0%;
+  background: linear-gradient(to top, #4A5A49, #5B6B5A 60%, #7A8B78);
+  border-radius: 100px;
+  transition: height 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+  box-shadow: 0 0 12px rgba(91, 107, 90, 0.5);
 }
 
-.progress-bar {
-  height: 100%;
-  width: 0%;
-  background: var(--accent);
-  transition: width 0.4s ease;
+/* «Пузырь» на верхушке заливки */
+.potion-fill::after {
+  content: '';
+  position: absolute;
+  top: -6px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 14px;
+  height: 14px;
+  background: radial-gradient(circle, rgba(122, 139, 120, 0.9), transparent 70%);
+  border-radius: 50%;
+  filter: blur(2px);
 }
 
-/* Страница */
+@media (max-width: 480px) {
+  .potion-rail {
+    right: 6px;
+    width: 4px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .potion-fill {
+    transition: none;
+  }
+}
+
+/* ============================================
+   Страница
+   ============================================ */
 .page {
-  max-width: 680px;
+  max-width: 640px;
   margin: 0 auto;
   padding: var(--space-xl) var(--space-md) var(--space-xl);
 }
@@ -76,12 +118,17 @@ body {
   }
 }
 
-/* Шапка */
+/* ============================================
+   Шапка
+   ============================================ */
 .page-header {
   margin-bottom: var(--space-xl);
+  opacity: 0;
+  animation: fadeUp 0.7s ease forwards;
 }
 
 .eyebrow {
+  font-family: var(--font-body);
   font-size: 0.6875rem;
   font-weight: 500;
   letter-spacing: 0.14em;
@@ -96,6 +143,7 @@ body {
   font-weight: 600;
   line-height: 1.08;
   letter-spacing: -0.02em;
+  color: var(--text);
   margin-bottom: var(--space-md);
 }
 
@@ -105,7 +153,9 @@ body {
   max-width: 48ch;
 }
 
-/* Секции */
+/* ============================================
+   Секции
+   ============================================ */
 .section {
   padding: var(--space-lg) 0;
   border-top: 1px solid var(--line);
@@ -127,6 +177,7 @@ body {
 }
 
 .section-num {
+  font-family: var(--font-body);
   font-size: 0.75rem;
   font-weight: 500;
   letter-spacing: 0.08em;
@@ -147,7 +198,9 @@ body {
   margin-bottom: var(--space-md);
 }
 
-/* Поля */
+/* ============================================
+   Поля
+   ============================================ */
 .field {
   margin-bottom: var(--space-md);
 }
@@ -158,6 +211,7 @@ body {
   font-weight: 500;
   color: var(--text-muted);
   margin-bottom: var(--space-xs);
+  transition: color 0.2s ease;
 }
 
 input[type="text"],
@@ -209,7 +263,9 @@ button:focus-visible {
   outline-offset: 2px;
 }
 
-/* Radio-вопросы (Эллис, CompACT, барьеры) */
+/* ============================================
+   Radio-вопросы (Эллис, CompACT, барьеры)
+   ============================================ */
 .question {
   margin-bottom: var(--space-md);
   padding: var(--space-sm) 0;
@@ -264,7 +320,9 @@ button:focus-visible {
   color: #FFFFFF;
 }
 
-/* Чекбокс */
+/* ============================================
+   Чекбокс
+   ============================================ */
 .check {
   display: flex;
   gap: var(--space-sm);
@@ -314,7 +372,9 @@ button:focus-visible {
   line-height: 1.5;
 }
 
-/* Кнопка */
+/* ============================================
+   Кнопка отправки
+   ============================================ */
 .submit {
   display: flex;
   align-items: center;
@@ -359,7 +419,9 @@ button:focus-visible {
   transform: none;
 }
 
-/* Сноска */
+/* ============================================
+   Сноска
+   ============================================ */
 .footnote {
   margin-top: var(--space-md);
   font-size: 0.75rem;
@@ -368,7 +430,23 @@ button:focus-visible {
   text-align: center;
 }
 
-/* Адаптив */
+/* ============================================
+   Анимация появления
+   ============================================ */
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ============================================
+   Адаптив
+   ============================================ */
 @media (max-width: 480px) {
   .page {
     padding: var(--space-lg) var(--space-sm);
@@ -381,9 +459,16 @@ button:focus-visible {
   .section {
     padding: var(--space-md) 0;
   }
+
+  .seg span {
+    font-size: 0.8125rem;
+    padding: 0.5rem 0.875rem;
+  }
 }
 
-/* Уважение к предпочтениям */
+/* ============================================
+   Уважение к предпочтениям
+   ============================================ */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     animation-duration: 0.01ms !important;
