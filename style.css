@@ -45,162 +45,15 @@ body {
   min-height: 100vh;
 }
 
-.sr-only {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  white-space: nowrap;
-  border: 0;
-}
-
-/* ============================================
-   Страница (mobile-first)
-   ============================================ */
-.page {
-  max-width: 640px;
-  margin: 0 auto;
-  padding: var(--space-md) var(--space-sm) var(--space-xl);
-}
-
-@media (min-width: 768px) {
-  .page {
-    padding: var(--space-xl) var(--space-lg);
-  }
-}
-
-/* ============================================
-   Подсказка сверху
-   ============================================ */
-.top-hint {
-  font-size: 0.8125rem;
-  color: var(--text-muted);
-  text-align: center;
-  padding: var(--space-xs) var(--space-sm);
-  background: var(--accent-soft);
-  border-radius: 100px;
-  margin-bottom: var(--space-md);
-}
-
-/* ============================================
-   Шапка
-   ============================================ */
-.page-header {
-  margin-bottom: var(--space-lg);
-  opacity: 0;
-  animation: fadeUp 0.7s ease forwards;
-}
-
-.eyebrow {
-  font-size: 0.6875rem;
-  font-weight: 500;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--text-muted);
-  margin-bottom: var(--space-sm);
-}
-
-.display {
-  font-family: var(--font-display);
-  font-size: clamp(1.75rem, 6vw, 3.25rem);
-  font-weight: 600;
-  line-height: 1.08;
-  letter-spacing: -0.02em;
-  margin-bottom: var(--space-sm);
-}
-
-.lede {
-  font-size: 1rem;
-  color: var(--text-muted);
-  max-width: 48ch;
-}
-
-/* ============================================
-   ОРИЕНТИР: индикатор секций
-   ============================================ */
-.steps-indicator {
-  display: flex;
-  align-items: center;
-  gap: var(--space-xs);
-  margin-bottom: var(--space-sm);
-  padding: var(--space-xs) 0;
-}
-
-.step-dot {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 2px;
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: var(--space-xs);
-  border-radius: var(--radius-sm);
-  transition: all 0.2s ease;
-  font-family: var(--font-body);
-  flex: 0 0 auto;
-}
-
-.step-dot-num {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 28px;
-  height: 28px;
-  border-radius: 50%;
-  border: 1.5px solid var(--line-strong);
-  font-size: 0.75rem;
-  font-weight: 600;
-  color: var(--text-muted);
-  background: var(--surface);
-  transition: all 0.2s ease;
-}
-
-.step-dot-label {
-  font-size: 0.625rem;
-  font-weight: 500;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  color: var(--text-muted);
-  transition: color 0.2s ease;
-}
-
-.step-dot.is-active .step-dot-num {
-  background: var(--accent);
-  border-color: var(--accent);
-  color: #FFFFFF;
-}
-
-.step-dot.is-active .step-dot-label {
-  color: var(--text);
-}
-
-.step-dot.is-done .step-dot-num {
-  background: var(--accent-soft);
-  border-color: var(--accent);
-  color: var(--accent);
-}
-
-.step-dot-line {
-  flex: 1;
-  height: 1px;
-  background: var(--line);
-  min-width: 12px;
-}
-
-/* ============================================
-   Полоса прогресса
-   ============================================ */
+/* Прогресс-бар */
 .progress-container {
+  position: fixed;
+  top: 0;
+  left: 0;
   width: 100%;
   height: 3px;
   background: var(--line);
-  border-radius: 100px;
-  overflow: hidden;
-  margin-bottom: var(--space-lg);
+  z-index: 100;
 }
 
 .progress-bar {
@@ -210,9 +63,49 @@ body {
   transition: width 0.4s ease;
 }
 
-/* ============================================
-   Секции (переходы не трогаем)
-   ============================================ */
+/* Страница */
+.page {
+  max-width: 680px;
+  margin: 0 auto;
+  padding: var(--space-xl) var(--space-md) var(--space-xl);
+}
+
+@media (min-width: 768px) {
+  .page {
+    padding: var(--space-xl) var(--space-lg);
+  }
+}
+
+/* Шапка */
+.page-header {
+  margin-bottom: var(--space-xl);
+}
+
+.eyebrow {
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: var(--space-md);
+}
+
+.display {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 6vw, 3.25rem);
+  font-weight: 600;
+  line-height: 1.08;
+  letter-spacing: -0.02em;
+  margin-bottom: var(--space-md);
+}
+
+.lede {
+  font-size: 1rem;
+  color: var(--text-muted);
+  max-width: 48ch;
+}
+
+/* Секции */
 .section {
   padding: var(--space-lg) 0;
   border-top: 1px solid var(--line);
@@ -254,9 +147,7 @@ body {
   margin-bottom: var(--space-md);
 }
 
-/* ============================================
-   Поля
-   ============================================ */
+/* Поля */
 .field {
   margin-bottom: var(--space-md);
 }
@@ -276,7 +167,7 @@ textarea,
 select {
   width: 100%;
   font-family: var(--font-body);
-  font-size: 16px; /* предотвращает зум на iOS */
+  font-size: 1rem;
   color: var(--text);
   background: var(--surface);
   border: 1px solid var(--line);
@@ -288,7 +179,7 @@ select {
 
 textarea {
   resize: vertical;
-  min-height: 100px;
+  min-height: 120px;
 }
 
 input::placeholder,
@@ -313,18 +204,15 @@ textarea:focus::placeholder {
 input:focus-visible,
 textarea:focus-visible,
 select:focus-visible,
-button:focus-visible,
-.step-dot:focus-visible {
+button:focus-visible {
   outline: 2px solid var(--accent);
   outline-offset: 2px;
 }
 
-/* ============================================
-   Radio-вопросы
-   ============================================ */
+/* Radio-вопросы (Эллис, CompACT, барьеры) */
 .question {
   margin-bottom: var(--space-md);
-  padding-bottom: var(--space-sm);
+  padding: var(--space-sm) 0;
   border-bottom: 1px solid var(--line);
 }
 
@@ -335,6 +223,7 @@ button:focus-visible,
 .question p {
   font-size: 0.9375rem;
   margin-bottom: var(--space-sm);
+  color: var(--text);
 }
 
 .scale {
@@ -375,15 +264,12 @@ button:focus-visible,
   color: #FFFFFF;
 }
 
-/* ============================================
-   Чекбокс
-   ============================================ */
+/* Чекбокс */
 .check {
   display: flex;
   gap: var(--space-sm);
   cursor: pointer;
   align-items: flex-start;
-  margin-bottom: var(--space-md);
 }
 
 .check input {
@@ -428,9 +314,7 @@ button:focus-visible,
   line-height: 1.5;
 }
 
-/* ============================================
-   Кнопка отправки
-   ============================================ */
+/* Кнопка */
 .submit {
   display: flex;
   align-items: center;
@@ -475,9 +359,7 @@ button:focus-visible,
   transform: none;
 }
 
-/* ============================================
-   Сноска
-   ============================================ */
+/* Сноска */
 .footnote {
   margin-top: var(--space-md);
   font-size: 0.75rem;
@@ -486,43 +368,22 @@ button:focus-visible,
   text-align: center;
 }
 
-/* ============================================
-   Анимация
-   ============================================ */
-@keyframes fadeUp {
-  from { opacity: 0; transform: translateY(12px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-/* ============================================
-   Адаптив (mobile-first)
-   ============================================ */
+/* Адаптив */
 @media (max-width: 480px) {
   .page {
     padding: var(--space-lg) var(--space-sm);
   }
 
   .display {
-    font-size: 1.75rem;
+    font-size: 1.875rem;
   }
 
   .section {
     padding: var(--space-md) 0;
   }
-
-  .step-dot-label {
-    display: none;
-  }
-
-  .step-dot-num {
-    width: 26px;
-    height: 26px;
-  }
 }
 
-/* ============================================
-   Уважение к предпочтениям
-   ============================================ */
+/* Уважение к предпочтениям */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     animation-duration: 0.01ms !important;
