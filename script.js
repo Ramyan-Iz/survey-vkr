@@ -112,25 +112,20 @@ const ellisScale = [
 ];
 
 const compactScale = [
-  { value: "0", label: "0" },
-  { value: "1", label: "1" },
-  { value: "2", label: "2" },
-  { value: "3", label: "3" },
-  { value: "4", label: "4" },
-  { value: "5", label: "5" },
+  { value: "0", label: "0" }, { value: "1", label: "1" },
+  { value: "2", label: "2" }, { value: "3", label: "3" },
+  { value: "4", label: "4" }, { value: "5", label: "5" },
   { value: "6", label: "6" }
 ];
 
 const barrierScale = [
-  { value: "1", label: "1" },
-  { value: "2", label: "2" },
-  { value: "3", label: "3" },
-  { value: "4", label: "4" },
+  { value: "1", label: "1" }, { value: "2", label: "2" },
+  { value: "3", label: "3" }, { value: "4", label: "4" },
   { value: "5", label: "5" }
 ];
 
 // ============================================================
-// ГЕНЕРАЦИЯ RADIO-ВОПРОСОВ
+// ГЕНЕРАЦИЯ
 // ============================================================
 function renderScale(containerId, items, prefix, scale) {
   const container = document.getElementById(containerId);
@@ -156,37 +151,87 @@ renderScale("compact-container", compactItems, "compact", compactScale);
 renderScale("barriers-container", barrierItems, "barrier", barrierScale);
 
 // ============================================================
-// АНИМАЦИЯ ПОЯВЛЕНИЯ СЕКЦИЙ
+// НАВИГАЦИЯ ПО ШАГАМ
 // ============================================================
-const sections = document.querySelectorAll('[data-section]');
+const steps = document.querySelectorAll(".step");
+const dots = document.querySelectorAll(".step-dot");
+const progressBar = document.getElementById("progressBar");
+const stepAnnounce = document.getElementById("stepAnnounce");
+const TOTAL_STEPS = steps.length;
 
-const observer = new IntersectionObserver((entries) => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      entry.target.classList.add('is-visible');
-      observer.unobserve(entry.target);
+let currentStep = 0;
+
+const stepTitles = ["Контакты", "Тема обращения", "Детали"];
+
+function goToStep(index, announce = true) {
+  if (index < 0 || index >= TOTAL_STEPS) return;
+
+  currentStep = index;
+
+  // Показать/скрыть шаги
+  steps.forEach((step, i) => {
+    const isActive = i === index;
+    step.classList.toggle("is-active", isActive);
+    if (isActive) {
+      step.removeAttribute("hidden");
+    } else {
+      step.setAttribute("hidden", "");
     }
   });
-}, {
-  threshold: 0.1,
-  rootMargin: '0px 0px -40px 0px'
+
+  // Обновить точки
+  dots.forEach((dot, i) => {
+    dot.classList.toggle("is-active", i === index);
+    dot.classList.toggle("is-done", i < index);
+    if (i === index) {
+      dot.setAttribute("aria-current", "step");
+    } else {
+      dot.removeAttribute("aria-current");
+    }
+  });
+
+  // Прогресс: (текущий шаг + 1) / всего
+  const progress = ((index + 1) / TOTAL_STEPS) * 100;
+  progressBar.style.width = progress + "%";
+
+  // Скролл наверх
+  window.scrollTo({ top: 0, behavior: "smooth" });
+
+  // aria-live
+  if (announce) {
+    stepAnnounce.textContent = `Шаг ${index + 1} из ${TOTAL_STEPS}: ${stepTitles[index]}`;
+  }
+
+  // Фокус на заголовок шага
+  const title = steps[index].querySelector(".step-title");
+  if (title) {
+    setTimeout(() => title.focus({ preventScroll: true }), 300);
+  }
+}
+
+// Кнопки «Далее»
+document.querySelectorAll("[data-next]").forEach(btn => {
+  btn.addEventListener("click", () => goToStep(currentStep + 1));
 });
 
-sections.forEach(section => observer.observe(section));
-
-// ============================================================
-// ПРОГРЕСС-БАР ПРИ СКРОЛЛЕ
-// ============================================================
-window.addEventListener('scroll', () => {
-  const scrollTop = window.scrollY;
-  const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-  const progress = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
-  const bar = document.getElementById('progressBar');
-  if (bar) bar.style.width = progress + '%';
+// Кнопки «Назад»
+document.querySelectorAll("[data-prev]").forEach(btn => {
+  btn.addEventListener("click", () => goToStep(currentStep - 1));
 });
 
+// Клик по точкам
+dots.forEach(dot => {
+  dot.addEventListener("click", () => {
+    const target = parseInt(dot.dataset.goto, 10);
+    goToStep(target);
+  });
+});
+
+// Инициализация
+goToStep(0, false);
+
 // ============================================================
-// СБОР И ОТПРАВКА ДАННЫХ
+// ОТПРАВКА
 // ============================================================
 function collectFormData() {
   const form = document.getElementById("surveyForm");
@@ -213,11 +258,11 @@ document.getElementById("surveyForm").addEventListener("submit", async (e) => {
   e.preventDefault();
 
   const data = collectFormData();
-  const submitBtn = e.target.querySelector(".submit");
-  const originalHTML = submitBtn.innerHTML;
+  const submitBtn = e.target.querySelector(".btn-submit");
+  const originalText = submitBtn.textContent;
 
   submitBtn.disabled = true;
-  submitBtn.innerHTML = '<span>Отправляем…</span>';
+  submitBtn.textContent = "Отправляем…";
 
   try {
     await fetch(APPS_SCRIPT_URL, {
@@ -227,16 +272,17 @@ document.getElementById("surveyForm").addEventListener("submit", async (e) => {
       body: new URLSearchParams(data).toString(),
     });
 
-    submitBtn.innerHTML = '<span>Спасибо</span><span class="submit-arrow">✓</span>';
+    submitBtn.textContent = "Спасибо ✓";
+    stepAnnounce.textContent = "Форма отправлена. Спасибо за участие.";
 
     setTimeout(() => {
       submitBtn.disabled = false;
-      submitBtn.innerHTML = originalHTML;
+      submitBtn.textContent = originalText;
     }, 4000);
   } catch (error) {
     alert("Не удалось отправить данные. Проверьте соединение и попробуйте снова.");
     submitBtn.disabled = false;
-    submitBtn.innerHTML = originalHTML;
+    submitBtn.textContent = originalText;
     console.error(error);
   }
 });
